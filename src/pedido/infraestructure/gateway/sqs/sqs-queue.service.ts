@@ -1,4 +1,3 @@
-import * as AWS from 'aws-sdk';
 import { SQSClient, GetQueueUrlCommand, SendMessageCommand } from "@aws-sdk/client-sqs";
 import { IQueueService } from '../../queue/queue.service';
 

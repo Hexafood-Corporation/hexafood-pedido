@@ -18,27 +18,37 @@ export class NovoPedidoListener {
   @OnEvent('novo.pedido')
   async handle(event: NovoPedidoEvent) {
     const pedido = event.pedido;
-    const pagamentoDto = {
-      valor: pedido.valor_total,
-      id_pedido: pedido.id,
+
+    console.log(pedido);
+
+    const pedidoMessageDto = {
+      id: pedido.id,
+      codigo_pedido: pedido.codigo_pedido,
+      valor_total: pedido.valor_total,
+      status: pedido.status,
+      itens: pedido.itens.map((item) => {
+        return {
+          id: item.id,
+          quantidade: item.quantidade,
+          valor: item.valor,
+          produto: {id: item.produto.id, nome: item.produto.nome}
+        };
+      }),
       cliente: null,
     };
 
     if (pedido.cliente) {
-      pagamentoDto.cliente = {
+      pedidoMessageDto.cliente = {
         id: pedido.cliente.id,
         nome: pedido.cliente.nome,
         cpf: pedido.cliente.cpf,
       };
     }
 
-    this.queueService.sendMessage(
+    return this.queueService.sendMessage(
       process.env.AWS_SQS_NOVO_PEDIDO_QUEUE_NAME,
-      JSON.stringify(pedido)
+      JSON.stringify(pedidoMessageDto)
     );
 
-    return this.createPagamentoUseCase.execute(
-      pagamentoDto,
-    );
   }
 }

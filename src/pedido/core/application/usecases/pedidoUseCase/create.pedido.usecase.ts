@@ -45,16 +45,19 @@ export class CreatePedidoUseCase {
       }
       pedido.cliente = cliente;
     }
-
+    let idItem = 0;
     pedido.itens = pedidoDto.itens.map((item) => {
       const produto = produtos.find((p) => p.id === item.id_produto);
       if (!produto) {
         throw new PedidoException(`Produto não cadastrado. id_produto: ${item.id_produto}`);
       }
+      idItem++;
       return {
+        id: idItem,
         quantidade: item.quantidade,
         valor: produto.valor,
         id_produto: item.id_produto,
+        produto: produto
       };
     });
 

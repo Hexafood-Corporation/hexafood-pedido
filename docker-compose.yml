@@ -55,6 +55,8 @@
         - HOSTNAME_EXTERNAL=localstack
       volumes:
         - "./docker-compose/localstack:/var/lib/localstack"
+        - ./docker-compose/start-localstack.sh:/etc/localstack/init/ready.d/start-localstack.sh
+
       networks:
         - hexafood-bridge
 

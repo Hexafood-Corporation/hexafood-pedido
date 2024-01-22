@@ -1,10 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { NovoPedidoEvent } from '../../../core/application/events/novo-pedido.event';
 import { OnEvent } from '@nestjs/event-emitter';
-import { StatusPedido } from '../../../core/domain/enum/status-pedido.enum';
 import { CreatePagamentoUseCase } from 'src/pagamento/core/application/usecases/pagamento/create.pagamento.usecase';
-import { UpdatePedidoUseCase } from 'src/pedido/core/application/usecases/pedidoUseCase/update.pedido.usecase';
-import { SqsQueueService } from '../sqs/sqs-queue.service';
 import { IQueueService } from '../../queue/queue.service';
 
 @Injectable()

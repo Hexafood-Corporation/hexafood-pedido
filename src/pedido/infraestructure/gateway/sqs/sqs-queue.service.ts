@@ -19,6 +19,7 @@ export class SqsQueueService  implements IQueueService{
 
         //Obtem a url da fila
         const queueUrl = await this.getQueueUrl(queueName);
+        console.log(message);
 
         const params = {
             MessageBody: message,

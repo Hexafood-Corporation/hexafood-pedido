@@ -48,7 +48,7 @@
         - AWS_DEFAULT_REGION=us-east-1
         - DEBUG=1
         - LOCALSTACK_PERSISTENCE=1
-        - SERVICES=sqs
+        - SERVICES=apigateway,sqs
         - DEFAULT_REGION=us-east-1
         - EDGE_PORT=4566
         - SQS_ENDPOINT_STRATEGY=path

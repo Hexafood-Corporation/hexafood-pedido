@@ -1,8 +1,6 @@
 #!/bin/bash
-
-# Cria Fila SQS
 awslocal sqs create-queue --endpoint-url http://localhost:4566 --queue-name novo_pedido --region us-east-1
-
+awslocal sqs create-queue --endpoint-url http://localhost:4566 --queue-name pagamento_processado --region us-east-1
 
 API_NAME=hexafood-pedidos
 REGION=us-east-1
@@ -42,7 +40,6 @@ awslocal apigateway put-integration \
     --type HTTP \
     --integration-http-method ANY \
     --uri http://api-pedido:3000/pedidos \
-
 
 
 # Recurso Clientes 
@@ -127,13 +124,10 @@ awslocal apigateway put-integration \
     --uri http://api-pedido:3000/produtos \
 
 
-
 awslocal apigateway create-deployment \
     --region ${REGION} \
     --rest-api-id ${API_ID} \
     --stage-name ${STAGE} \
-
-[ $? == 0 ] || fail 6 "Failed: awslocal / apigateway / create-deployment"
 
 ENDPOINT=http://localhost:4566/restapis/${API_ID}/${STAGE}/_user_request_/
 

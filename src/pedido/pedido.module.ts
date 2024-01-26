@@ -39,6 +39,7 @@ import { SqsQueueService } from './infraestructure/gateway/sqs/sqs-queue.service
 import { IQueueService } from './infraestructure/queue/queue.service';
 import { SqsConsumerService } from './infraestructure/gateway/sqs/sqs-consumer.service';
 import { PagamentoProcessadoListener } from './infraestructure/gateway/listeners/pagamento-processado.listener';
+import { PedidoRecebidoListener } from './infraestructure/gateway/listeners/pedido-recebido.listener';
 
 @Module({
   imports: [ forwardRef(() => IdentificacaoModule), forwardRef(() => PagamentoModule) ],
@@ -85,7 +86,8 @@ import { PagamentoProcessadoListener } from './infraestructure/gateway/listeners
     UpdateProdutoUseCase,
     NovoPedidoListener,
     UpdatePedidoUseCase,
-    PagamentoProcessadoListener
+    PagamentoProcessadoListener,
+    PedidoRecebidoListener
   ],
   exports: [FindPedidoByIdUseCase, UpdatePedidoUseCase, IPedidosRepository],
 })

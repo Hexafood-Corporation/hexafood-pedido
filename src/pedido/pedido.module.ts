@@ -35,6 +35,11 @@ import { FindByIdsProdutosUseCase } from './core/application/usecases/produtoUse
 import { UpdateProdutoUseCase } from './core/application/usecases/produtoUseCase/update.produto.usecase';
 import { CreatePagamentoUseCase } from 'src/pagamento/core/application/usecases/pagamento/create.pagamento.usecase';
 import { UpdatePedidoUseCase } from './core/application/usecases/pedidoUseCase/update.pedido.usecase';
+import { SqsQueueService } from './infraestructure/gateway/sqs/sqs-queue.service';
+import { IQueueService } from './infraestructure/queue/queue.service';
+import { SqsConsumerService } from './infraestructure/gateway/sqs/sqs-consumer.service';
+import { PagamentoProcessadoListener } from './infraestructure/gateway/listeners/pagamento-processado.listener';
+import { PedidoRecebidoListener } from './infraestructure/gateway/listeners/pedido-recebido.listener';
 
 @Module({
   imports: [ forwardRef(() => IdentificacaoModule), forwardRef(() => PagamentoModule) ],
@@ -43,6 +48,8 @@ import { UpdatePedidoUseCase } from './core/application/usecases/pedidoUseCase/u
     { provide: IProdutosRepository, useClass: ProdutosRepository },
     { provide: ICategoriasRepository, useClass: CategoriasRepository },
     { provide: IPedidosRepository, useClass: PedidosRepository },
+    { provide: IQueueService, useClass: SqsQueueService},
+    SqsConsumerService,
     {
       provide: APP_FILTER,
       useClass: ValidationFilter,
@@ -78,7 +85,9 @@ import { UpdatePedidoUseCase } from './core/application/usecases/pedidoUseCase/u
     FindByIdsProdutosUseCase,
     UpdateProdutoUseCase,
     NovoPedidoListener,
-    UpdatePedidoUseCase
+    UpdatePedidoUseCase,
+    PagamentoProcessadoListener,
+    PedidoRecebidoListener
   ],
   exports: [FindPedidoByIdUseCase, UpdatePedidoUseCase, IPedidosRepository],
 })

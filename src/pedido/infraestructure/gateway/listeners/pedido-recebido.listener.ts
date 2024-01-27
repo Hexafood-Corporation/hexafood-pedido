@@ -1,19 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { NovoPedidoEvent } from '../../../core/application/events/novo-pedido.event';
 import { OnEvent } from '@nestjs/event-emitter';
 import { CreatePagamentoUseCase } from 'src/pagamento/core/application/usecases/pagamento/create.pagamento.usecase';
 import { IQueueService } from '../../queue/queue.service';
+import { PedidoRecebidoEvent } from 'src/pedido/core/application/events/pedido-recebido.event';
 
 @Injectable()
-export class NovoPedidoListener {
+export class PedidoRecebidoListener {
   constructor(
     private createPagamentoUseCase: CreatePagamentoUseCase,
     @Inject('IQueueService')
     private queueService: IQueueService
   ) { }
 
-  @OnEvent('novo.pedido')
-  async handle(event: NovoPedidoEvent) {
+  @OnEvent('pedido.recebido')
+  async handle(event: PedidoRecebidoEvent) {
     const pedido = event.pedido;
 
     const pedidoMessageDto = {
@@ -41,7 +41,7 @@ export class NovoPedidoListener {
     }
 
     return this.queueService.sendMessage(
-      process.env.AWS_SQS_NOVO_PEDIDO_QUEUE_NAME,
+      process.env.AWS_SQS_PEDIDO_RECEBIDO_QUEUE_NAME,
       JSON.stringify(pedidoMessageDto)
     );
 

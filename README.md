@@ -395,7 +395,7 @@ Em todo processo é possível consultar pedido atual através do código gerado 
 
 [/pedidos/{codigo_pedido}](http://localhost:3000/api#/pedidos/PedidosController_consultarPedidoPorCodigo)
 
-### Pagamento ###
+### Pagamento
 Antes do pedido prosseguir para cozinha para preparação, ele deve ter seu pagamento processado. Como isso é feito por um sistema externo, foi optado por fazer isso de forma assíncrona. 
 
 Quando um pedido é criado, primeiramente é definido um STATUS de "INICIADO", e disparado um evento no sistema. Foi utilizado um recurso do nestjs chamado "event-emitter", para diminuir acoplamento e separar responsabilidades. O funcionamento se dá seguinte forma: 
@@ -463,10 +463,34 @@ export class UpdatePagamentoUseCase {
 ```
 O restante da lógica se mantém, sendo caso o pagamento seja aprovado, o pedido passa a ter o status "RECEBIDO" ficando disponível para preparação não seja aprovado, e caso não seja aprovado, o pedido tem o status "CANCELADO" e não avança para fila de preparação. Uma representação visual desse fluxo consta na figura a seguir:
 <br>
-<h4 align="center">
+<p align="center">
     <img alt="Fluxo de pagamentos" title="fluxo-pagamento" src=".github/readme/fluxo_pagamento.jpg" width="1864px" />
-</h4>
+</p>
 <br>
+```
+
+### Estrutura de dados
+Nosso banco de dados consiste em cinco tabelas. A primeira é a tabela de categorias de produtos, como lanches, refrigerantes, etc. Em seguida, temos a tabela de clientes, na qual não gerenciamos as informações de login, por isso não armazenamos senhas. Temos também a tabela de produtos em si, e a tabela de pedidos, que relaciona os itens dos produtos com os clientes. Por fim, temos a tabela de valores e status dos produtos.
+
+<p align="center">
+    <img alt="Estrutura dos dados" title="estrutura-dados" src=".github/readme/estrutura_dados.png" />
+</p>
+
+### Banco de dados
+Optamos pelo banco de dados SQL Postgres devido a alguns motivos. Primeiro, a familiaridade dos membros da equipe com essa tecnologia. Além disso, desejávamos estabelecer relacionamentos entre tabelas, como clientes e pedidos, categorias de produtos e itens que relacionam pedidos e produtos.
+Também levamos em consideração que não teríamos um grande volume de requisições diárias, evitando sobrecarregar o banco de dados. Com base nesses aspectos, a escolha pelo Postgres foi a mais adequada.
+
+## Pipeline
+
+A nossa pipeline é configurada para ser executada automaticamente em cada push que realizamos, bem como em cada pull request direcionado para a branch principal (main). Essa pipeline é executada no ambiente do `ubuntu-latest` e utiliza a versão do Node 16.14.x para realizar os processos de instalação de dependências durante a etapa de `run: yarn`, para compilar o projeto com o comando `run: yarn build` e também para executar os testes por meio do comando `run: yarn test`.
+
+É importante destacar que a branch main possui restrições de merge caso alguma etapa da nossa pipeline falhe. Não é permitido fazer o merge se uma etapa não for concluída com êxito, e não é possível realizar commits diretamente na branch main.
+
+Uma vez concluídas as etapas de compilação e testes, procedemos com o processo de implantação da imagem gerada no Docker para o Docker Hub. Para garantir a segurança, evitamos incluir informações sensíveis, como credenciais, diretamente no código YAML. Em vez disso, utilizamos o painel de secrets fornecido pelo próprio GitHub para armazenar e utilizar essas credenciais no código YAML, por exemplo, `${{ secrets.DOCKERHUB_USERNAME }}`.
+
+<p align="center">
+    <img alt="Fluxo da pipeline" title="fluxo-pipeline" src=".github/readme/pipeline.png" />
+</p>
 
 ## :bookmark_tabs: Licença
 
@@ -479,6 +503,5 @@ Feito com ❤️ por:
 - [Bruno Padilha](https://www.linkedin.com/in/brpadilha/)
 - [Lucas Siqueira](https://www.linkedin.com/in/lucassouzatidev/)
 - [Marayza](https://www.linkedin.com/in/marayza-gonzaga-7766251b1/)
-- [Mario Celso]()
 
 [Voltar ao topo](#índice)

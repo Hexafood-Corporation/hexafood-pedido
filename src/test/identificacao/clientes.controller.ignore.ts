@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClientesController } from '../../identificacao/infrastructure/controller/clientes.controller';
-import { CreateClienteUseCase } from 'src/identificacao/core/application/usecases/cliente/create.cliente.usecase';
-import { IndentifyClienteUseCase } from 'src/identificacao/core/application/usecases/cliente/identify.cliente.usecase';
-import { FindClienteUseCase } from 'src/identificacao/core/application/usecases/cliente/find.cliente.usecase';
+import { CreateClienteUseCase } from '../../identificacao/core/application/usecases/cliente/create.cliente.usecase';
+import { IndentifyClienteUseCase } from '../../identificacao/core/application/usecases/cliente/identify.cliente.usecase';
+import { FindClienteUseCase } from '../../identificacao/core/application/usecases/cliente/find.cliente.usecase';
 
 describe('ClientesController', () => {
   let controller: ClientesController;

@@ -8,11 +8,13 @@ export class FindByIdsProdutosUseCase {
         private produtosRepository: IProdutosRepository) {}
 
   async execute(ids: number[]) {
-    const produto = await this.produtosRepository.findByIds(ids);
-    if (!produto) {
-      throw new ProdutoException('O produto informado não existe.');
+    const produtos = await this.produtosRepository.findByIds(ids);
+
+    if (produtos.some((produto) => produto === null)) {
+      throw new ProdutoException('Pelo menos um produto informado não existe.');
     }
-    return produto;
+
+    return produtos;
   }
 }
 

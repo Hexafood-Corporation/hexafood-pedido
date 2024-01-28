@@ -1,4 +1,4 @@
-import { IProdutosRepository } from 'src/pedido/core/domain/repository/produtos.repository';
+import { IProdutosRepository } from '../../../../../pedido/core/domain/repository/produtos.repository';
 import { ExistProdutoUseCase } from './exist.produto.usecase';
 import { InputProdutoDto } from './produto.dto';
 import { Inject } from '@nestjs/common';

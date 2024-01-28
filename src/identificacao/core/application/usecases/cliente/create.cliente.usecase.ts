@@ -1,8 +1,8 @@
-import { Cliente } from 'src/identificacao/core/domain/cliente/entity/cliente.entity';
 import { IClientesRepository } from '../../../domain/cliente/repository/clientes.repository';
 import { Inject } from '@nestjs/common';
 import { InputClienteDto, OutputClienteDto } from './cliente.dto';
 import { ClienteException } from '../../exceptions/cliente.exception';
+import { Cliente } from '../../../domain/cliente/entity/cliente.entity';
 
 export class CreateClienteUseCase {
   constructor(

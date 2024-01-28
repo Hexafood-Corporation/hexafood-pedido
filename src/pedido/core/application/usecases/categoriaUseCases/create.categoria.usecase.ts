@@ -7,12 +7,13 @@ import { CategoriaException } from '../../exceptions/categoria.exception';
 export class CreateCategoriaUseCase {
   constructor(
     @Inject('ICategoriasRepository')
-    private categoriasRepository: ICategoriasRepository
-    ) {}
+    private categoriasRepository: ICategoriasRepository,
+  ) {}
 
   async execute(createCategoriaDto: InputCategoriaDto) {
-    
-    const exists = await this.categoriasRepository.existsByName(createCategoriaDto.nome);
+    const exists = await this.categoriasRepository.existsByName(
+      createCategoriaDto.nome,
+    );
     if (exists) {
       throw new CategoriaException('Categoria já cadastrada');
     }
@@ -24,4 +25,3 @@ export class CreateCategoriaUseCase {
     return categoria;
   }
 }
-

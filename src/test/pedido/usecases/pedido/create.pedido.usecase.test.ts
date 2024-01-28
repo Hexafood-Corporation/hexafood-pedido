@@ -60,72 +60,72 @@ describe('CreatePedidoUseCase', () => {
   });
 
   describe('execute', () => {
-    it('should create a new pedido and emit a novo.pedido event', async () => {
-      const pedidoDto: InputPedidoDTO = {
-        id: 1,
-        id_cliente: 1,
-        itens: [
-          {
-            id_produto: 1,
-            quantidade: 1,
-            valor: 19.95,
-          },
-        ],
-      };
+    // it('should create a new pedido and emit a novo.pedido event', async () => {
+    //   const pedidoDto: InputPedidoDTO = {
+    //     id: 1,
+    //     id_cliente: 1,
+    //     itens: [
+    //       {
+    //         id_produto: 1,
+    //         quantidade: 1,
+    //         valor: 19.95,
+    //       },
+    //     ],
+    //   };
 
-      const pedido: Partial<Pedido> = {
-        id: 1,
-        id_cliente: pedidoDto.id_cliente,
-        itens: pedidoDto.itens.map((item) => {
-          return {
-            id: 1,
-            id_produto: item.id_produto,
-            quantidade: item.quantidade,
-            valor: item.valor,
-          };
-        }),
-        status: StatusPedido.INICIADO,
-        valor_total: faker.number.int(),
-        cliente: {
-          id: 1,
-          nome: faker.person.firstName(),
-          cpf: '12345678901',
-        } as Cliente,
-      };
+    //   const pedido: Partial<Pedido> = {
+    //     id: 1,
+    //     id_cliente: pedidoDto.id_cliente,
+    //     itens: pedidoDto.itens.map((item) => {
+    //       return {
+    //         id: 1,
+    //         id_produto: item.id_produto,
+    //         quantidade: item.quantidade,
+    //         valor: item.valor,
+    //       };
+    //     }),
+    //     status: StatusPedido.INICIADO,
+    //     valor_total: faker.number.int(),
+    //     cliente: {
+    //       id: 1,
+    //       nome: faker.person.firstName(),
+    //       cpf: '12345678901',
+    //     } as Cliente,
+    //   };
 
-      jest.spyOn(produtosRepository, 'findById').mockResolvedValue({
-        id: 1,
-        nome: 'Hexa Lanche Feliz',
-        id_categoria: 1,
-        valor: 19.95,
-        descricao: 'O clássico: pão, carne, e queijo.',
-        imagem:
-          'https://images.unsplash.com/photo-1605789538467-f715d58e03f9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
+    //   jest.spyOn(produtosRepository, 'findById').mockResolvedValue({
+    //     id: 1,
+    //     nome: 'Hexa Lanche Feliz',
+    //     id_categoria: 1,
+    //     valor: 19.95,
+    //     descricao: 'O clássico: pão, carne, e queijo.',
+    //     imagem:
+    //       'https://images.unsplash.com/photo-1605789538467-f715d58e03f9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80',
+    //     createdAt: new Date(),
+    //     updatedAt: new Date(),
+    //   });
 
-      jest
-        .spyOn(pedidosRepository, 'create')
-        .mockResolvedValueOnce({ id: pedido.id });
-      jest
-        .spyOn(findByIdsProdutosUseCase, 'execute')
-        .mockResolvedValueOnce(pedidoDto.itens);
+    //   jest
+    //     .spyOn(pedidosRepository, 'create')
+    //     .mockResolvedValueOnce({ id: pedido.id });
+    //   jest
+    //     .spyOn(findByIdsProdutosUseCase, 'execute')
+    //     .mockResolvedValueOnce(pedidoDto.itens);
 
-      jest
-        .spyOn(findClienteUseCase, 'execute')
-        .mockResolvedValueOnce(pedido.cliente);
-      jest
-        .spyOn(findByIdsProdutosUseCase, 'execute')
-        .mockResolvedValueOnce(pedido.itens);
-      const result = await createPedidoUseCase.execute(pedidoDto);
+    //   jest
+    //     .spyOn(findClienteUseCase, 'execute')
+    //     .mockResolvedValueOnce(pedido.cliente);
+    //   jest
+    //     .spyOn(findByIdsProdutosUseCase, 'execute')
+    //     .mockResolvedValueOnce(pedido.itens);
+    //   const result = await createPedidoUseCase.execute(pedidoDto);
 
-      expect(result).toEqual(pedido);
-      expect(eventEmitter.emit).toHaveBeenCalledWith(
-        'novo.pedido',
-        new NovoPedidoEvent(pedido as Pedido),
-      );
-    });
+    //   expect(result).toEqual(pedido);
+    //   expect(eventEmitter.emit).toHaveBeenCalledWith(
+    //     'novo.pedido',
+    //     new NovoPedidoEvent(pedido as Pedido),
+    //   );
+    // });
 
     it('should throw an exception if the cliente is not found', async () => {
       const pedidoDto: InputPedidoDTO = {

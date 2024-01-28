@@ -13,14 +13,8 @@ awslocal apigateway create-rest-api \
     --region ${REGION} \
     --name ${API_NAME}
 
-
-
 API_ID=$(awslocal apigateway get-rest-apis --query "items[?name==\`${API_NAME}\`].{ID: id}" --output text --region ${REGION})
 PARENT_RESOURCE_ID=$(awslocal apigateway get-resources --rest-api-id ${API_ID} --query 'items[?path==`/`].{ID: id}' --output text --region ${REGION})
-
-echo "API CRIADA? at: ${API_ID}"
-
-
 
 # Recurso Pedidos 
 
@@ -47,7 +41,6 @@ awslocal apigateway put-integration \
     --type HTTP \
     --integration-http-method ANY \
     --uri http://api-pedido:3000/pedidos \
-
 
 
 # Recurso Clientes 
@@ -136,8 +129,6 @@ awslocal apigateway create-deployment \
     --region ${REGION} \
     --rest-api-id ${API_ID} \
     --stage-name ${STAGE} \
-
-[ $? == 0 ] || fail 6 "Failed: awslocal / apigateway / create-deployment"
 
 ENDPOINT=http://localhost:4566/restapis/${API_ID}/${STAGE}/_user_request_/
 

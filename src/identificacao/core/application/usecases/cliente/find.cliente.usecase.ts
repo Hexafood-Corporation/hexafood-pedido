@@ -1,4 +1,4 @@
-import { IClientesRepository } from 'src/identificacao/core/domain/cliente/repository/clientes.repository';
+import { IClientesRepository } from '../../../../../identificacao/core/domain/cliente/repository/clientes.repository';
 import { ClienteException } from '../../exceptions/cliente.exception';
 import { Inject } from '@nestjs/common';
 

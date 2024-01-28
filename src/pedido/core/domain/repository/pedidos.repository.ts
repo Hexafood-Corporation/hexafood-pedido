@@ -1,4 +1,7 @@
-import { InputPedidoDTO, OutputPedidoDTO, PedidoDTO } from '../../application/usecases/pedidoUseCase/pedido.dto';
+import {
+  InputPedidoDTO,
+  PedidoDTO,
+} from '../../application/usecases/pedidoUseCase/pedido.dto';
 import { Pedido } from '../entity/pedido.entity';
 import { StatusPedido } from '../enum/status-pedido.enum';
 
@@ -16,5 +19,4 @@ export interface IPedidosRepository {
   findById(id: number): Promise<Pedido>;
 
   findByCodigo(codigo_pedido: string): Promise<PedidoDTO>;
-
 }

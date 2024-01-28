@@ -7,14 +7,14 @@ on:
 
 jobs:
   deploy:
-    name: Deploy on EKS
+    name: Deploy on ECR
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: lucassouzati/hexaform
+          repository: lucassouzati/hexafood-pedido
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -22,11 +22,25 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      
-      - name: Update kubeconfig
-        run: aws eks update-kubeconfig --region us-east-1 --name hexaform
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
 
-      - name: Helm Install and Kubectl Apply
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+  
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: hexafood_pedido
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          helm upgrade --install hexacluster hexacluster
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      
+      # - name: Update kubeconfig
+      #   run: aws eks update-kubeconfig --region us-east-1 --name hexaform
+
+      # - name: Helm Install and Kubectl Apply
+      #   run: |
+      #     helm upgrade --install hexacluster hexacluster
   

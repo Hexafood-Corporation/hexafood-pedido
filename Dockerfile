@@ -1,6 +1,8 @@
-FROM node:18
+FROM node:18-alpine
 
 USER root
+
+RUN apk add --no-cache bash
 
 RUN mkdir /home/node/app
 WORKDIR /home/node/app

@@ -1,6 +1,7 @@
 #!/bin/bash
 awslocal sqs create-queue --endpoint-url http://localhost:4566 --queue-name novo_pedido --region us-east-1
 awslocal sqs create-queue --endpoint-url http://localhost:4566 --queue-name pagamento_processado --region us-east-1
+awslocal sqs create-queue --endpoint-url http://localhost:4566 --queue-name pedido_recebido --region us-east-1
 
 API_NAME=hexafood-pedidos
 REGION=us-east-1

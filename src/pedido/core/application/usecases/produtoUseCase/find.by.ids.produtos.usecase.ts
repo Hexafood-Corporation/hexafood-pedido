@@ -5,7 +5,8 @@ import { Inject } from '@nestjs/common';
 export class FindByIdsProdutosUseCase {
   constructor(
     @Inject('IProdutosRepository')
-        private produtosRepository: IProdutosRepository) {}
+    private produtosRepository: IProdutosRepository,
+  ) {}
 
   async execute(ids: number[]) {
     const produtos = await this.produtosRepository.findByIds(ids);
@@ -17,5 +18,3 @@ export class FindByIdsProdutosUseCase {
     return produtos;
   }
 }
-
-

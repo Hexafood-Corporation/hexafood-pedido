@@ -1,5 +1,8 @@
 import { Categoria } from 'src/pedido/core/domain/entity/categoria.entity';
-import { InputCategoriaDto, OutputCategoriaDto } from '../../application/usecases/categoriaUseCases/categoria.dto';
+import {
+  InputCategoriaDto,
+  OutputCategoriaDto,
+} from '../../application/usecases/categoriaUseCases/categoria.dto';
 
 export const ICategoriasRepository = 'ICategoriasRepository';
 
@@ -8,6 +11,5 @@ export interface ICategoriasRepository {
 
   findAll(): Promise<OutputCategoriaDto[]>;
 
-  existsByName(name: string) : Promise<boolean>;
-
+  existsByName(name: string): Promise<boolean>;
 }

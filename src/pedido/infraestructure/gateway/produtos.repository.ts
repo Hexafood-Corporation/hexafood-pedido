@@ -10,7 +10,7 @@ export class ProdutosRepository implements IProdutosRepository {
     this.prisma = new PrismaClient({
       datasources: {
         db: {
-          url: process.env.DATABASE_URL, 
+          url: process.env.DATABASE_URL,
         },
       },
     });
@@ -23,9 +23,9 @@ export class ProdutosRepository implements IProdutosRepository {
   }
 
   async findAll(): Promise<Produto[] | null> {
-    var produtos = await this.prisma.produto.findMany();
+    const produtos = await this.prisma.produto.findMany();
     return produtos;
-  };
+  }
 
   async findByIdCategoria(idCategoria: number) {
     return this.prisma.produto.findMany({
@@ -39,6 +39,8 @@ export class ProdutosRepository implements IProdutosRepository {
     const item = this.prisma.produto.findUnique({
       where: { id },
     });
+
+    if (!item) throw new Error('Produto não encontrado');
 
     return this.prisma.produto.update({
       where: {

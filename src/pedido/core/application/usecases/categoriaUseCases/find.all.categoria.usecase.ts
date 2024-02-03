@@ -5,7 +5,7 @@ import { Inject } from '@nestjs/common';
 export class FindAllCategoriaUseCase {
   constructor(
     @Inject('ICategoriasRepository')
-    private categoriasRepository: ICategoriasRepository
+    private categoriasRepository: ICategoriasRepository,
   ) {}
 
   async execute() {

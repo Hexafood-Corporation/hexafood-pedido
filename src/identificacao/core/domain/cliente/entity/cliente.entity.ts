@@ -1,4 +1,4 @@
-import { ClienteException } from 'src/identificacao/core/application/exceptions/cliente.exception';
+import { ClienteException } from '../../../application/exceptions/cliente.exception';
 
 export class Cliente {
   id?: number;

@@ -9,4 +9,11 @@ module.exports = {
     '^.+.tsx?$': 'ts-jest',
   },
   moduleDirectories: ['node_modules', 'src'],
+  coveragePathIgnorePatterns: [
+    '.dto.ts$',
+    '.schema.ts$',
+    '.controller.ts$',
+    '.repository.ts$',
+    '.module.ts$',
+  ],
 };

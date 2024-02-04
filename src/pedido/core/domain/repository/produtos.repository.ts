@@ -1,5 +1,5 @@
-import { Produto } from "src/pedido/core/domain/entity/produto.entity";
-import { InputProdutoDto } from "../../application/usecases/produtoUseCase/produto.dto";
+import { Produto } from 'src/pedido/core/domain/entity/produto.entity';
+import { InputProdutoDto } from '../../application/usecases/produtoUseCase/produto.dto';
 
 export const IProdutosRepository = 'IProdutosRepository';
 
@@ -17,5 +17,4 @@ export interface IProdutosRepository {
   findByIds(ids: number[]);
 
   findById(id: number);
-
 }

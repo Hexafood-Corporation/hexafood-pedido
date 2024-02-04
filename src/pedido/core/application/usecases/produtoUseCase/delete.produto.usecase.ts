@@ -1,6 +1,7 @@
-import { IProdutosRepository } from 'src/pedido/core/domain/repository/produtos.repository';
+import { IProdutosRepository } from '../../../../../pedido/core/domain/repository/produtos.repository';
 import { ExistProdutoUseCase } from './exist.produto.usecase';
 import { Inject } from '@nestjs/common';
+import { ProdutoException } from '../../exceptions/produto.exception';
 
 export class DeleteProdutoUseCase {
   constructor(
@@ -10,8 +11,11 @@ export class DeleteProdutoUseCase {
   {}
 
   async execute(id: number) {
-    if (this.existProdutoUseCase.execute(id))
-      return this.produtosRepository.remove(id);
+    const produtoExists = await this.existProdutoUseCase.execute(id);
+    if (!produtoExists) {
+      throw new ProdutoException('O produto informado não existe.');
+    }
+    return this.produtosRepository.remove(id);
   }
 }
 

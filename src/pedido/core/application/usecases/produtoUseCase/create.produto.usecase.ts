@@ -1,5 +1,5 @@
 
-import { IProdutosRepository } from "src/pedido/core/domain/repository/produtos.repository";
+import { IProdutosRepository } from "../../../../../pedido/core/domain/repository/produtos.repository";
 import { ProdutoException } from "../../exceptions/produto.exception";
 import { FindAllCategoriaUseCase } from "../categoriaUseCases/find.all.categoria.usecase";
 import { InputProdutoDto } from "./produto.dto";

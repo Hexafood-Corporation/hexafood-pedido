@@ -18,7 +18,6 @@ export class OutputPedidoDTO {
   itens: CreateItemDTO[];
 }
 
-
 export class PedidoDTO {
   @ApiProperty()
   id?: number;
@@ -26,5 +25,4 @@ export class PedidoDTO {
   id_cliente?: number;
   @ApiProperty({ type: () => [CreateItemDTO] })
   itens: CreateItemDTO[];
-
 }

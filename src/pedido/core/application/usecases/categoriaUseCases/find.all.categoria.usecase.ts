@@ -5,13 +5,16 @@ import { Inject } from '@nestjs/common';
 export class FindAllCategoriaUseCase {
   constructor(
     @Inject('ICategoriasRepository')
-    private categoriasRepository: ICategoriasRepository) {}
+    private categoriasRepository: ICategoriasRepository,
+  ) {}
 
   async execute() {
-   const categorias = this.categoriasRepository.findAll();
-    if (!categorias) {
+    const categorias = await this.categoriasRepository.findAll();
+
+    if (!categorias || categorias.length === 0) {
       throw new CategoriaException('Não há nenhuma categoria cadastrada');
     }
+
     return categorias;
   }
 }

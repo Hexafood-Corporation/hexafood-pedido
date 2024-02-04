@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { InputCategoriaDto } from './categoria.dto';
-import { ICategoriasRepository } from 'src/pedido/core/domain/repository/categorias.repository';
-import { Categoria } from 'src/pedido/core/domain/entity/categoria.entity';
+import { ICategoriasRepository } from '../../../../../pedido/core/domain/repository/categorias.repository';
+import { Categoria } from '../../../../../pedido/core/domain/entity/categoria.entity';
 import { CategoriaException } from '../../exceptions/categoria.exception';
 
 export class CreateCategoriaUseCase {

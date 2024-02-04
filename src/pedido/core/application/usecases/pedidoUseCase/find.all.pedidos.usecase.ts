@@ -1,17 +1,17 @@
-import { IPedidosRepository } from "src/pedido/core/domain/repository/pedidos.repository";
-import { InputPedidoDTO } from "./pedido.dto"
+import { IPedidosRepository } from 'src/pedido/core/domain/repository/pedidos.repository';
+import { InputPedidoDTO } from './pedido.dto';
 import { Inject } from '@nestjs/common';
-import { PedidoException } from "../../exceptions/pedido.exception";
+import { PedidoException } from '../../exceptions/pedido.exception';
 
 export class FindAllPedidosUseCase {
-    constructor(
-      @Inject(IPedidosRepository)
-      private pedidosRepository: IPedidosRepository,
-    ) {}
-  
-async execute(): Promise<InputPedidoDTO[]> {
+  constructor(
+    @Inject(IPedidosRepository)
+    private pedidosRepository: IPedidosRepository,
+  ) {}
+
+  async execute(): Promise<InputPedidoDTO[]> {
     const pedidos = await this.pedidosRepository.findAll();
-    if (!pedidos) {
+    if (pedidos.length === 0) {
       throw new PedidoException('Não há nenhum pedido realizado.');
     }
 

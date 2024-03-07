@@ -9,7 +9,7 @@ export class SqsQueueService  implements IQueueService{
             region: process.env.AWS_DEFAULT_REGION,
             credentials: {
                 accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                secretAccessKey: process.env.AWS_SECRET_KEY,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
             },
             endpoint: process.env.AWS_SQS_ENDPOINT,
         });
@@ -39,7 +39,7 @@ export class SqsQueueService  implements IQueueService{
     async getQueueUrl(queueName: string): Promise<any> {
         const input = { 
             QueueName: queueName, 
-            QueueOwnerAWSAccountId: "000000000000",
+            QueueOwnerAWSAccountId: process.env.AWS_ACCOUNT_ID,
         };
         const command = new GetQueueUrlCommand(input);
 

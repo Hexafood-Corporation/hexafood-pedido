@@ -17,10 +17,32 @@ describe('DeleteClienteUseCase', () => {
   });
 
   it('Deve deletar um cliente por id', async () => {
-    const id = 1;
+    const cliente = {
+      id: 1,
+      nome: 'Cliente Teste',
+      cpf: '12345678901',
+    };
 
-    await deleteClienteUseCase.execute(id);
+    clientesRepository.findById = jest.fn().mockResolvedValue(cliente);
 
-    expect(clientesRepository.delete).toHaveBeenCalledWith(id);
+    await deleteClienteUseCase.execute(cliente.id);
+
+    expect(clientesRepository.delete).toHaveBeenCalledWith(cliente.id);
+  });
+
+  it('Deve retornar erro ao tentar deletar um cliente que não existe', async () => {
+    const cliente = {
+      id: 1,
+      nome: 'Cliente Test',
+      cpf: '12345678901',
+    };
+
+    clientesRepository.findById = jest.fn().mockResolvedValue(undefined);
+
+    try {
+      await deleteClienteUseCase.execute(cliente.id);
+    } catch (error) {
+      expect(error.message).toBe('Cliente não cadastrado');
+    }
   });
 });

@@ -18,6 +18,7 @@ export class CreateClienteUseCase {
     const cliente = await this.clientesRepository.create(
       new Cliente(data.nome, data.cpf),
     );
+    console.log('cliente', cliente);
     return {
       id: cliente.id,
       nome: cliente.nome,

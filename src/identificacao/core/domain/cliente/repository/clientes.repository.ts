@@ -3,7 +3,7 @@ import { Cliente } from '../entity/cliente.entity';
 export const IClientesRepository = 'IClientesRepository';
 
 export interface IClientesRepository {
-  create(data: Cliente): Promise<Cliente>;
+  create(data: Cliente);
 
   findUnique(cpf: string): Promise<Cliente>;
 

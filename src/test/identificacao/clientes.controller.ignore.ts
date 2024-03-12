@@ -3,6 +3,7 @@ import { ClientesController } from '../../identificacao/infrastructure/controlle
 import { CreateClienteUseCase } from '../../identificacao/core/application/usecases/cliente/create.cliente.usecase';
 import { IndentifyClienteUseCase } from '../../identificacao/core/application/usecases/cliente/identify.cliente.usecase';
 import { FindClienteUseCase } from '../../identificacao/core/application/usecases/cliente/find.cliente.usecase';
+import { DeleteClienteUseCase } from 'src/identificacao/core/application/usecases/cliente/delete.cliente.usecase';
 
 describe('ClientesController', () => {
   let controller: ClientesController;
@@ -14,6 +15,7 @@ describe('ClientesController', () => {
         CreateClienteUseCase,
         IndentifyClienteUseCase,
         FindClienteUseCase,
+        DeleteClienteUseCase,
       ],
     }).compile();
 

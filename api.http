@@ -5,13 +5,17 @@ Content-Type: application/json
 
 {
     "nome": "Teste 2",
-    "cpf": "3565445"
+    "cpf": "14699488773"
 }
 
 
 ###
-GET http://localhost:3000/clientes/3565445
+GET http://localhost:3000/clientes/14699488773
 
 
 ###
-GET http://localhost:3000/
+GET http://localhost:3000/clientes
+
+
+###
+DELETE http://localhost:3000/clientes/2

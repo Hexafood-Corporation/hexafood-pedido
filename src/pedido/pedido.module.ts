@@ -42,13 +42,16 @@ import { PagamentoProcessadoListener } from './infraestructure/gateway/listeners
 import { PedidoRecebidoListener } from './infraestructure/gateway/listeners/pedido-recebido.listener';
 
 @Module({
-  imports: [ forwardRef(() => IdentificacaoModule), forwardRef(() => PagamentoModule) ],
+  imports: [
+    forwardRef(() => IdentificacaoModule),
+    forwardRef(() => PagamentoModule),
+  ],
   controllers: [ProdutosController, CategoriasController, PedidosController],
   providers: [
     { provide: IProdutosRepository, useClass: ProdutosRepository },
     { provide: ICategoriasRepository, useClass: CategoriasRepository },
     { provide: IPedidosRepository, useClass: PedidosRepository },
-    { provide: IQueueService, useClass: SqsQueueService},
+    { provide: IQueueService, useClass: SqsQueueService },
     SqsConsumerService,
     {
       provide: APP_FILTER,
@@ -59,13 +62,13 @@ import { PedidoRecebidoListener } from './infraestructure/gateway/listeners/pedi
       useExisting: EventEmitter2,
     },
     {
-       provide: FindClienteUseCase, 
-       useClass: FindClienteUseCase,
+      provide: FindClienteUseCase,
+      useClass: FindClienteUseCase,
     },
     {
-      provide: CreatePagamentoUseCase, 
+      provide: CreatePagamentoUseCase,
       useClass: CreatePagamentoUseCase,
-   },
+    },
     CreateCategoriaUseCase,
     FindAllCategoriaUseCase,
     FindByIdCategoriaUseCase,
@@ -87,7 +90,7 @@ import { PedidoRecebidoListener } from './infraestructure/gateway/listeners/pedi
     NovoPedidoListener,
     UpdatePedidoUseCase,
     PagamentoProcessadoListener,
-    PedidoRecebidoListener
+    PedidoRecebidoListener,
   ],
   exports: [FindPedidoByIdUseCase, UpdatePedidoUseCase, IPedidosRepository],
 })

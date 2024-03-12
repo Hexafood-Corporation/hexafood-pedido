@@ -10,7 +10,7 @@ export class ClientesRepository implements IClientesRepository {
     this.prisma = new PrismaClient({
       datasources: {
         db: {
-          url: process.env.DATABASE_URL, 
+          url: process.env.DATABASE_URL,
         },
       },
     });

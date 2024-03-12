@@ -1,5 +1,5 @@
-import { DeleteClienteUseCase } from "src/identificacao/core/application/usecases/cliente/delete.cliente.usecase";
-import { IClientesRepository } from "src/identificacao/core/domain/cliente/repository/clientes.repository";
+import { DeleteClienteUseCase } from 'src/identificacao/core/application/usecases/cliente/delete.cliente.usecase';
+import { IClientesRepository } from 'src/identificacao/core/domain/cliente/repository/clientes.repository';
 
 describe('DeleteClienteUseCase', () => {
   let deleteClienteUseCase: DeleteClienteUseCase;

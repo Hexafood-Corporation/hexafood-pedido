@@ -11,7 +11,7 @@ export class ClientesController {
   constructor(
     private readonly createClienteUseCase: CreateClienteUseCase,
     private readonly identiyClienteUseCase: IndentifyClienteUseCase,
-    private readonly deleteClienteUseCase: DeleteClienteUseCase
+    private readonly deleteClienteUseCase: DeleteClienteUseCase,
   ) {}
 
   @Post()
@@ -26,6 +26,6 @@ export class ClientesController {
 
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
-    return await this.deleteClienteUseCase.execute(id);
+    return await this.deleteClienteUseCase.execute(Number(id));
   }
 }

@@ -47,4 +47,8 @@ export class ClientesRepository implements IClientesRepository {
     }
     return null;
   }
+
+  async delete(id: number): Promise<void> {
+    await this.prisma.cliente.delete({ where: { id } });
+  }
 }

@@ -10,4 +10,6 @@ export interface IClientesRepository {
   existsByCpf(cpf: string): Promise<boolean>;
 
   findById(id: number): Promise<Cliente>;
+
+  delete(id: number): Promise<void>;
 }

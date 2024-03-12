@@ -5,6 +5,7 @@ export const MockClientesRepository: jest.Mocked<IClientesRepository> = {
   findUnique: jest.fn(),
   existsByCpf: jest.fn(),
   findById: jest.fn(),
+  delete: jest.fn(),
 };
 
 export default MockClientesRepository;

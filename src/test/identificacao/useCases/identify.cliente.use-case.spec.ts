@@ -7,8 +7,9 @@ describe('IndentifyClienteUseCase', () => {
   let identifyClienteUseCase: IndentifyClienteUseCase;
 
   beforeEach(() => {
- 
-    identifyClienteUseCase = new IndentifyClienteUseCase(MockClientesRepository);
+    identifyClienteUseCase = new IndentifyClienteUseCase(
+      MockClientesRepository,
+    );
   });
 
   it('Deve retornar o cliente se o CPF for encontrado', async () => {
@@ -21,15 +22,21 @@ describe('IndentifyClienteUseCase', () => {
 
     const result = await identifyClienteUseCase.execute('12345678901');
 
-    expect(MockClientesRepository.findUnique).toHaveBeenCalledWith('12345678901');
+    expect(MockClientesRepository.findUnique).toHaveBeenCalledWith(
+      '12345678901',
+    );
     expect(result).toEqual(cliente);
   });
 
   it('Deve lançar uma exceção se o CPF não for encontrado', async () => {
     MockClientesRepository.findUnique.mockResolvedValue(null);
 
-    await expect(identifyClienteUseCase.execute('12345678901')).rejects.toThrowError(ClienteException);
+    await expect(
+      identifyClienteUseCase.execute('12345678901'),
+    ).rejects.toThrowError(ClienteException);
 
-    expect(MockClientesRepository.findUnique).toHaveBeenCalledWith('12345678901');
+    expect(MockClientesRepository.findUnique).toHaveBeenCalledWith(
+      '12345678901',
+    );
   });
 });

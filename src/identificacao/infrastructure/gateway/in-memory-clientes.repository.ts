@@ -32,4 +32,12 @@ export class InMemoryClientesRepository implements IClientesRepository {
     }
     return cliente;
   }
+
+  async delete(id: number): Promise<void> {
+    const index = this.clientes.findIndex((c) => c.id == id);
+    if (index == -1) {
+      throw new Error(`Cliente com id ${id} não encontrado!`);
+    }
+    this.clientes.splice(index, 1);
+  }
 }

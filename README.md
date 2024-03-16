@@ -73,7 +73,7 @@ Por fim, o microsserviço de pedido ecuta a fila de pedidos prontos e atualiza o
 
 
 
-## :world: Desenvolvimento Seguro com OWASP Zap
+## :police_car: Desenvolvimento Seguro com OWASP Zap
 
 A fim de atender aos critérios de Desenvolvimento Seguro, foi aplicado o Dynamic Application Security Testing (DAST) nesse microsserviço, a fim de detectar vulnerabilidades nas APIs servidas pelos microsserviços. Para isso, foi utlizado a ferramenta apresentada no módulo, chamada OWASP Zap. 
 

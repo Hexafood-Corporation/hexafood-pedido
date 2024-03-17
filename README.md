@@ -14,9 +14,9 @@
 - <a href="#wink-autores">Autores</a>
 ## :boat: Sobre o projeto
 
-Esse projeto faz parte do trabalho "Tech Challenge - Fase 04", ministrado no quarto módulo do curso de Pós Graduação Software Architecture da FIAP em parceria com a Alura.
+Esse projeto faz parte do trabalho "Tech Challenge - Fase 05", ministrado no quinto módulo do curso de Pós Graduação Software Architecture da FIAP em parceria com a Alura.
 
-Para exercitar os conceitos apresentados nas matérias do curso, sendo elas Estrutura de Microsserviços e Qualidade de Software, esse projeto foi atualizado a fim de abarcar os novos conteúdos. Dessa forma. o projeto foi dividido em 03 (três) microsserviços, sendo cada um deles com seus próprios testes unitários e aferição de cobertura de testes. Nesse repositório, está o microsserviço de Pedidos. 
+Para exercitar os conceitos apresentados nas matérias do curso, sendo elas SAGA Pattern, Desenvolvimento Seguro e Privacidade de Dados e Lei Geral de Proteção de Dados (LGPD), esse projeto foi atualizado a fim de abarcar os novos conteúdos. Dessa forma, cada microsservico do projeto foi alterado para implementar novas práticas aprendidas no módulo. Nesse repositório está o microsserviço de Pedidos. 
 
 Toda infraestrutura e microsserviços estão distribuídos pelos seguintes repositórios:
 
@@ -71,23 +71,35 @@ Por fim, o microsserviço de pedido ecuta a fila de pedidos prontos e atualiza o
 <br>
 
 
-## :electric_plug: Cobertura de testes com SonarCloud
 
-A fim de atender aos critérios de Qualidade de Software do desafio, foi implementaod testes unitários neste microsserviço, e configurado a pipeline para executar uma verificação a cada push na branch main. Dessa forma, caso o código está com menos de 80% de cobertura de testes, ele é rejeitado. Na imagem seguir, temos um exemplo de report anexado a PR informando a análise do SonarCloud:
 
-<br>
-<h4 align="center">
-    <img alt="Análise do sonarcloud" title="sqs" src=".github/readme/sonarcloudpr.png" width="1864px" />
-</h4>
-<br>
+## :police_car: Desenvolvimento Seguro com OWASP Zap
 
-E na imagem a seguir segue um relatório detalhado do código deste microsserviço, que fica disponível no próprio portal do SonarCloud:
+A fim de atender aos critérios de Desenvolvimento Seguro, foi aplicado o Dynamic Application Security Testing (DAST) nesse microsserviço, a fim de detectar vulnerabilidades nas APIs servidas pelos microsserviços. Para isso, foi utlizado a ferramenta apresentada no módulo, chamada OWASP Zap. 
+
+Os testes DAST são executados no conceito de teste da caixa preta, ou seja, de forma externa a aplicação e sem acesso ao código fonte. Com OWASP Zap, ele pode ser realizado tanto numa página web como em endpoints de uma API, sendo a forma adequada para os testes de segurança nos microsserviços.
+
+Ao executar o escaneamento pela primeira vez no endpoint do cardápio "produtos", foram relatadas as seguintes vulnerabilidades:
 
 <br>
 <h4 align="center">
-    <img alt="Análise do sonarcloud" title="sqs" src=".github/readme/sonarcloudanalise.png" width="1864px" />
+    <img alt="Vulnerabilidades encontradas no microsserviço" title="escaneamento" src=".github/readme/owasp_zap.png" width="1864px" />
 </h4>
 <br>
+
+Todas vulnerabilidades eram de baixa criticidade e tinham relação com informações expostas no header das responses da API. Foi implementado um middleware na API deste microsserviço, a fim de sanar todas vulnerabilidades encontradas. Após a implementação, a ferramenta não encontrou mais vulerabilidades, conforme imagem a seguir:
+
+
+
+<br>
+<h4 align="center">
+    <img alt="Análise do sonarcloud" title="sqs" src=".github/readme/owasp_zap_apos_correcao.png" width="1864px" />
+</h4>
+<br>
+
+O relatório completo gerado pelo OWASP Zap pode ser encontrado no link abaixo:
+
+[Relatório Completo OWASP Zap](.github/readme/2024-03-08-ZAP-Report-.pdf)
 
 
 ## :bookmark_tabs: Licença

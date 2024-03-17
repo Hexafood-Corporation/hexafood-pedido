@@ -1,4 +1,4 @@
-<h1 align="center">
+a<h1 align="center">
     Hexafood Pedidos
 </h1>
 
@@ -10,6 +10,7 @@
 - <a href="#rocket-como-rodar-esse-projeto">Como rodar esse projeto</a>
 - <a href="#open_file_folder-sobre-o-microsserviço-pedido">Sobre o Microsserviço Pedido</a>
 - <a href="#electric_plug-cobertura-de-testes-com-sonarcloud">Cobertura de testes com SonarCloud</a>
+- <a href="#lgpd"> LGDP</a>
 - <a href="#bookmark_tabs-licença">Licença</a>
 - <a href="#wink-autores">Autores</a>
 ## :boat: Sobre o projeto
@@ -89,6 +90,12 @@ E na imagem a seguir segue um relatório detalhado do código deste microsservi�
 </h4>
 <br>
 
+
+## :lgpd: LGDP
+
+Nosso projeto está em total conformidade com a Lei Geral de Proteção de Dados (LGPD), garantindo a privacidade e segurança dos dados dos usuários. Uma das principais medidas implementadas é a disponibilização da opção para exclusão dos dados pessoais dos usuários, como nome e CPF. Essa funcionalidade permite que os usuários exerçam seu direito à autodeterminação informativa, fortalecendo sua privacidade e controle sobre suas informações. Ao oferecer essa opção, demonstramos nosso compromisso em respeitar e proteger os direitos dos usuários, contribuindo para um ambiente digital mais seguro e transparente.
+
+Também estamos disponibilizando o link do Relatório de Impacto à Proteção de Dados Pessoais (RIPD) - https://docs.google.com/document/d/1ePAvH9D63uhuzzu6MYPwSvfKAI1f_bIBUIIGiPE4zVE/edit?usp=sharing
 
 ## :bookmark_tabs: Licença
 

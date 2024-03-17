@@ -20,24 +20,24 @@ export class PagamentosController {
     private eventEmitter: EventEmitter,
   ) {}
   
-  @Post()
-  create(@Body() createPagamentoDto: CreatePagamentoDto) {
-    return this.createPagamentoUseCase.execute(createPagamentoDto);
-  }
+  // @Post()
+  // create(@Body() createPagamentoDto: CreatePagamentoDto) {
+  //   return this.createPagamentoUseCase.execute(createPagamentoDto);
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.findPagamentoUseCase.execute(Number(id));
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: number) {
+  //   return this.findPagamentoUseCase.execute(Number(id));
+  // }
 
-  @Patch()
-  async update(@Body() updatePagamentoDto: UpdatePagamentoDto) {
-    const pagamento = await this.findPagamentoUseCase.execute(updatePagamentoDto.id);
-    pagamento.status = updatePagamentoDto.status;
+  // @Patch()
+  // async update(@Body() updatePagamentoDto: UpdatePagamentoDto) {
+  //   const pagamento = await this.findPagamentoUseCase.execute(updatePagamentoDto.id);
+  //   pagamento.status = updatePagamentoDto.status;
     
-    this.eventEmitter.emit('pagamento.processado', new PagamentoProcessadoEvent(pagamento));
-    return null
-  }
+  //   this.eventEmitter.emit('pagamento.processado', new PagamentoProcessadoEvent(pagamento));
+  //   return null
+  // }
 
 
 

@@ -15,7 +15,7 @@ export class NovoPedidoListener {
   @OnEvent('novo.pedido')
   async handle(event: NovoPedidoEvent) {
     const pedido = event.pedido;
-
+ 
     const pedidoMessageDto = {
       id: pedido.id,
       codigo_pedido: pedido.codigo_pedido,

@@ -9,6 +9,9 @@ export class InputClienteDto {
   @ApiProperty()
   cpf: string;
 
+  @ApiProperty()
+  email: string;
+
   createdAt?: Date;
 }
 
@@ -21,6 +24,9 @@ export class OutputClienteDto {
 
   @ApiProperty()
   cpf: string;
+
+  @ApiProperty()
+  email: string;
 
   createdAt?: Date;
 }

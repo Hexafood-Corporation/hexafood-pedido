@@ -7,6 +7,7 @@ import { IPedidosRepository } from 'src/pedido/core/domain/repository/pedidos.re
 import { PedidoException } from '../../exceptions/pedido.exception';
 import { NovoPedidoEvent } from '../../events/novo-pedido.event';
 import { Item, Pedido } from 'src/pedido/core/domain/entity/pedido.entity';
+import { PedidoCanceladoEvent } from '../../events/pedido-cancelado.event';
 
 @Injectable()
 export class CreatePedidoUseCase {

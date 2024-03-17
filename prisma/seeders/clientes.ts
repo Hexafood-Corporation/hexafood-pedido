@@ -7,6 +7,7 @@ const generateCliente = (id: number) => ({
   create: {
     id,
     nome: faker.person.fullName(), // Gera um nome aleatório usando o faker.js
+    email: faker.internet.email(), // Gera um nome aleatório usando o faker.js
     cpf: generateRandomCPF(), // Gera um CPF aleatório.
   },
 });

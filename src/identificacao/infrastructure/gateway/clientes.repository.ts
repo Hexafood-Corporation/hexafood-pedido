@@ -10,7 +10,7 @@ export class ClientesRepository implements IClientesRepository {
     this.prisma = new PrismaClient({
       datasources: {
         db: {
-          url: process.env.DATABASE_URL, 
+          url: process.env.DATABASE_URL,
         },
       },
     });
@@ -46,5 +46,9 @@ export class ClientesRepository implements IClientesRepository {
       return ClienteFactory.create(cliente);
     }
     return null;
+  }
+
+  async delete(id: number): Promise<void> {
+    await this.prisma.cliente.delete({ where: { id } });
   }
 }

@@ -46,7 +46,10 @@ import { NotificarPedidoCanceladoUseCase } from './core/application/usecases/ped
 import { PedidoCanceladoListener } from './infraestructure/gateway/listeners/pedido-cancelado.listener';
 
 @Module({
-  imports: [ forwardRef(() => IdentificacaoModule), forwardRef(() => PagamentoModule) ],
+  imports: [
+    forwardRef(() => IdentificacaoModule),
+    forwardRef(() => PagamentoModule),
+  ],
   controllers: [ProdutosController, CategoriasController, PedidosController],
   providers: [
     { provide: IProdutosRepository, useClass: ProdutosRepository },
@@ -64,13 +67,13 @@ import { PedidoCanceladoListener } from './infraestructure/gateway/listeners/ped
       useExisting: EventEmitter2,
     },
     {
-       provide: FindClienteUseCase, 
-       useClass: FindClienteUseCase,
+      provide: FindClienteUseCase,
+      useClass: FindClienteUseCase,
     },
     {
-      provide: CreatePagamentoUseCase, 
+      provide: CreatePagamentoUseCase,
       useClass: CreatePagamentoUseCase,
-   },
+    },
     CreateCategoriaUseCase,
     FindAllCategoriaUseCase,
     FindByIdCategoriaUseCase,

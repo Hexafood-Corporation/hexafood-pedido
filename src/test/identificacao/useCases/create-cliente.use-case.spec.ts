@@ -1,10 +1,10 @@
 import { ClienteException } from '../../../identificacao/core/application/exceptions/cliente.exception';
 import { CreateClienteUseCase } from '../../../identificacao/core/application/usecases/cliente/create.cliente.usecase';
 import { MockClientesRepository } from './MockClientesRepository';
-import { Cliente } from '../../../identificacao/core/domain/cliente/entity/cliente.entity';
-import { InputClienteDto, OutputClienteDto } from '../../../identificacao/core/application/usecases/cliente/cliente.dto';
-import { IClientesRepository } from 'src/identificacao/core/domain/cliente/repository/clientes.repository';
-
+import {
+  InputClienteDto,
+  OutputClienteDto,
+} from '../../../identificacao/core/application/usecases/cliente/cliente.dto';
 describe('CreateClienteUseCase', () => {
   let createClienteUseCase: CreateClienteUseCase;
 
@@ -32,7 +32,9 @@ describe('CreateClienteUseCase', () => {
     MockClientesRepository.create.mockResolvedValue(clienteCriado);
 
     // When
-    const result: OutputClienteDto = await createClienteUseCase.execute(inputClienteDto);
+    const result: OutputClienteDto = await createClienteUseCase.execute(
+      inputClienteDto,
+    );
 
     // Then
     expect(result).toEqual({
@@ -48,7 +50,9 @@ describe('CreateClienteUseCase', () => {
       }),
     );
 
-    expect(MockClientesRepository.existsByCpf).toHaveBeenCalledWith(inputClienteDto.cpf);
+    expect(MockClientesRepository.existsByCpf).toHaveBeenCalledWith(
+      inputClienteDto.cpf,
+    );
   });
 
   it('Deve lançar uma exceção ao tentar criar um cliente com CPF já existente', async () => {
@@ -61,40 +65,35 @@ describe('CreateClienteUseCase', () => {
     MockClientesRepository.existsByCpf.mockResolvedValue(true);
 
     // When/Then
-    await expect(createClienteUseCase.execute(inputClienteDto)).rejects.toThrowError(
-      ClienteException,
-    );
+    await expect(
+      createClienteUseCase.execute(inputClienteDto),
+    ).rejects.toThrowError(ClienteException);
 
-    expect(MockClientesRepository.existsByCpf).toHaveBeenCalledWith(inputClienteDto.cpf);
+    expect(MockClientesRepository.existsByCpf).toHaveBeenCalledWith(
+      inputClienteDto.cpf,
+    );
     expect(MockClientesRepository.create).not.toHaveBeenCalled();
   });
-  
 
   // it('Deverá retornar erro para CPF maior que 11 dígitos.', async () => {
   //   // Given
   //   const inputClienteDto = gerarClienteCpfMaiorQue11Digitos();
   //   expect(() => new Cliente(inputClienteDto.nome, inputClienteDto.cpf)).toThrowError(ClienteException);
   // });
-
-
 });
 
-
-
 function gerarCliente(): InputClienteDto {
-  
   const cliente = new InputClienteDto();
-  cliente.nome = "Nome de teste";
-  cliente.cpf = "20235454842";
+  cliente.nome = 'Nome de teste';
+  cliente.cpf = '20235454842';
 
   return cliente;
 }
 
 function gerarClienteCpfMaiorQue11Digitos(): InputClienteDto {
-  
   const cliente = new InputClienteDto();
-  cliente.nome = "Nome de teste";
-  cliente.cpf = "202354548454872";
+  cliente.nome = 'Nome de teste';
+  cliente.cpf = '202354548454872';
 
   return cliente;
 }

@@ -99,7 +99,7 @@ A Saga Coreografada é uma escolha adequada para a arquitetura de microserviços
 
 <br>
 <h4 align="center">
-    <img alt="Representação visual comunicação entre os microsserviços" title="sqs" src=".github/readme/assincrono.drawio.png" width="1864px" />
+    <img alt="Representação visual comunicação entre os microsserviços" title="sqs" src=".github/readme/hexafood-orquestrado.png" width="1864px" />
 </h4>
 <br>
 

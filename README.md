@@ -135,7 +135,7 @@ O relatório completo gerado pelo OWASP Zap pode ser encontrado no link abaixo:
 [Relatório Completo OWASP Zap](.github/readme/2024-03-08-ZAP-Report-.pdf)
 
 
-## :lgpd: LGDP
+## :warning: LGDP
 
 Nosso projeto está em total conformidade com a Lei Geral de Proteção de Dados (LGPD), garantindo a privacidade e segurança dos dados dos usuários. Uma das principais medidas implementadas é a disponibilização da opção para exclusão dos dados pessoais dos usuários, como nome e CPF. Essa funcionalidade permite que os usuários exerçam seu direito à autodeterminação informativa, fortalecendo sua privacidade e controle sobre suas informações. Ao oferecer essa opção, demonstramos nosso compromisso em respeitar e proteger os direitos dos usuários, contribuindo para um ambiente digital mais seguro e transparente.
 

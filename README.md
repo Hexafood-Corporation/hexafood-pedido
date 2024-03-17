@@ -55,15 +55,47 @@ O projeto estará executando no endereço http://localhost:3000/.
 Para limpar o volume db do docker, execute o comando:
 docker-compose down -v
 
-## :open_file_folder: Sobre o Microsserviço Pedido
+## :open_file_folder: Utilizando Saga Coreografada na Arquitetura de Microserviços
 
-Após quebrar a arquitetura monolítica anterior, o fluxo da criação de pedidos foi mantido nesse microsserviço. Isso indica que ele é o principal responsável por todo fluxo, tendo o papel de criar o pedido e comunicar ao cliente que o mesmo está pronto. Ao removermos as responsabilidade de pagamento e gestão de produção para outros microsserviços, isolamos o fluxo de ponta a ponta. O pedido começa nesse microsserviço, é atualizado durante as fases e depois concluído também.  
+Na arquitetura de microserviços da aplicação Hexafood, optamos por implementar o padrão de projeto Saga Coreografada para garantir a consistência das operações distribuídas entre os diferentes serviços.
 
-A comunicação com os outros microsserviços, se dá através de uma fila SQS da AWS. Quando o pedido é criado, este microsserviço deve disparar uma mensagem na fila informando que existe um novo pedido. Ao mesmo tempo, este microsserviço fica escutando a fila de pagamentos processados, que é o resultado do procesamento de novos pedidos pelo microsserviço pagamento. 
+### Motivação
+<b>Coordenação Distribuída</b>
 
-Este microsserviço então atualiza o status do pedido com base nas informações obtidas na fila de pagamentos processados, e dispara uma outra mensagme para fila de pedidos recebidos. Esssa por sua vez é monitorada pelo microsserviço de produção, a qual é responsável por disparar outra mensagem informando que o pedido está pronto.
+Ao lidar com transações que envolvem múltiplos serviços, é crucial garantir que todas as etapas sejam executadas com sucesso ou revertidas em caso de falha. A abordagem de Saga Coreografada permite uma coordenação distribuída entre os serviços participantes, eliminando a necessidade de um ponto centralizado de controle.
 
-Por fim, o microsserviço de pedido ecuta a fila de pedidos prontos e atualiza o status para que o cliente retire o mesmo. Esse fluxo, pode ser visto na imagem a seguir:
+<b>Desacoplamento e Escalabilidade</b>
+
+Cada microserviço na arquitetura Hexafood é responsável por uma parte específica do fluxo de trabalho, tornando o sistema mais desacoplado e modular. Isso facilita a manutenção, evolução e escalabilidade da aplicação, pois cada serviço pode ser desenvolvido, testado e implantado de forma independente.
+
+<b>Flexibilidade e Tolerância a Falhas</b>
+
+Com a Saga Coreografada, cada serviço define suas próprias regras de compensação para desfazer as operações em caso de falha. Isso proporciona uma maior flexibilidade na gestão de exceções e na recuperação de falhas, tornando o sistema mais resiliente e robusto.
+
+<b>Orquestração através de Eventos</b>
+
+A troca de eventos entre os serviços é essencial para iniciar transações e coordenar suas ações. Os eventos são utilizados para comunicar mudanças de estado e acionar as próximas etapas do fluxo de trabalho. Essa abordagem baseada em eventos torna o sistema mais assíncrono e reativo às mudanças de contexto.
+
+
+### Fluxo de Trabalho
+
+hexafood-pedidos:<br>
+Inicia o processo de solicitação de pedidos e coloca uma mensagem na fila "novo_pedido".
+
+hexafood-pagamentos:<br>
+Lê a mensagem da fila "novo_pedido", realiza a tentativa de pagamento e envia o resultado para a fila "pagamento_processado".
+
+hexafood-pedidos:<br>
+Lê a mensagem da fila "pagamento_processado" e, se o pagamento for bem-sucedido, envia uma mensagem para a fila "pedido_recebido".
+Caso o pagamento não tenho sido completado com sucesso, ocorre uma ação compensatória onde o pedido é atualizado para o status "CANCELADO" e é enviado uma notificação por e-email para o cliente (caso o mesmo tenha e-mail cadastrado).
+Se o cliente não tiver cadastro, o resultado do cancelamento é retornado em GET/PEDIDOS, onde um monitor no restaurante apresenta o status do pedidos dos clientes.
+
+hexafood-producao:<br>
+Lê a mensagem da fila "pedido_recebido" e inicia a preparação do pedido.
+Ao finalizar, é enviado para a fila "pedido_finalizado", onde será lido pelo hexafood-pedidos, atualizando o status para FINALIZADO.
+
+### Conclusão
+A Saga Coreografada é uma escolha adequada para a arquitetura de microserviços da Hexafood devido à sua coordenação distribuída, desacoplamento, flexibilidade e tolerância a falhas. Essa abordagem permite que cada serviço participe ativamente do fluxo de trabalho, garantindo a consistência das operações distribuídas em um ambiente altamente dinâmico e escalável.
 
 <br>
 <h4 align="center">

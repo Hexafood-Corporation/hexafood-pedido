@@ -8,9 +8,9 @@ a<h1 align="center">
 - <a href="#boat-sobre-o-projeto">Sobre o projeto</a>
 - <a href="#hammer-tecnologias">Tecnologias</a>
 - <a href="#rocket-como-rodar-esse-projeto">Como rodar esse projeto</a>
-- <a href="#open_file_folder-sobre-o-microsserviço-pedido">Sobre o Microsserviço Pedido</a>
-- <a href="#electric_plug-cobertura-de-testes-com-sonarcloud">Cobertura de testes com SonarCloud</a>
-- <a href="#lgpd"> LGDP</a>
+- <a href="#open_file_folder-utilizando-saga-coreografada-na-arquitetura-de-microsserviços">Utilizando Saga Coreografada na Arquitetura de Microsserviços</a>
+- <a href="#police_car-desenvolvimento-seguro-com-owasp-zap">Desenvolvimento Seguro com OWASP Zap</a>
+- <a href="#warning-lgpd"> LGDP</a>
 - <a href="#bookmark_tabs-licença">Licença</a>
 - <a href="#wink-autores">Autores</a>
 ## :boat: Sobre o projeto
@@ -57,7 +57,7 @@ Para limpar o volume db do docker, execute o comando:
 docker-compose down -v
 ```
 
-## :open_file_folder: Utilizando Saga Coreografada na Arquitetura de Microserviços
+## :open_file_folder: Utilizando Saga Coreografada na Arquitetura de Microsserviços
 
 Na arquitetura de microserviços da aplicação Hexafood, optamos por implementar o padrão de projeto Saga Coreografada para garantir a consistência das operações distribuídas entre os diferentes serviços.
 
@@ -81,18 +81,18 @@ A troca de eventos entre os serviços é essencial para iniciar transações e c
 
 ### Fluxo de Trabalho
 
-hexafood-pedidos:<br>
+**hexafood-pedidos:**<br>
 Inicia o processo de solicitação de pedidos e coloca uma mensagem na fila "novo_pedido".
 
-hexafood-pagamentos:<br>
+**hexafood-pagamentos:**<br>
 Lê a mensagem da fila "novo_pedido", realiza a tentativa de pagamento e envia o resultado para a fila "pagamento_processado".
 
-hexafood-pedidos:<br>
+**hexafood-pedidos:**<br>
 Lê a mensagem da fila "pagamento_processado" e, se o pagamento for bem-sucedido, envia uma mensagem para a fila "pedido_recebido".
 Caso o pagamento não tenho sido completado com sucesso, ocorre uma ação compensatória onde o pedido é atualizado para o status "CANCELADO" e é enviado uma notificação por e-email para o cliente (caso o mesmo tenha e-mail cadastrado).
 Se o cliente não tiver cadastro, o resultado do cancelamento é retornado em GET/PEDIDOS, onde um monitor no restaurante apresenta o status do pedidos dos clientes.
 
-hexafood-producao:<br>
+**hexafood-producao:**<br>
 Lê a mensagem da fila "pedido_recebido" e inicia a preparação do pedido.
 Ao finalizar, é enviado para a fila "pedido_finalizado", onde será lido pelo hexafood-pedidos, atualizando o status para FINALIZADO.
 
@@ -165,7 +165,7 @@ export class NovoPedidoListener {
 }
 ```
 
-Ou seja, em caso de problemas com comunicação com o SQS, o pedido tem o status mudado para CANCELADO e é acionado um novo fluxo para notificar ao cliente do ocorrido. Dessa forma, previni-se um cenário de inconsistência que poderia vir a correr de ter o pedido INICIADO, mas sem estar sendo processado pelo fluxo de microsserviços. 
+Ou seja, caso ocorra algm problema com a comunicação com o SQS, o pedido tem o status mudado para CANCELADO e é acionado um novo fluxo para notificar ao cliente do ocorrido. Dessa forma, previne-se um cenário de inconsistência um pedido poderia ter o status INICIADO, mas sem estar sendo processado pelo fluxo de microsserviços. 
 
 Esse cenário pode ser melhorado futuramente, onde o pedido cancelado é publicado em um tópico, onde o microsserviço de pagamento também poderá atuar reembolsando o valor pago. 
 

@@ -55,8 +55,6 @@ export class NovoPedidoListener {
           console.error("Falha ao enviar a mensagem:", error);
           pedido.status = StatusPedido.CANCELADO;
 
-          console.log("SETADO PARA CANCELADO");
-
           try {
             await this.pedidoRepository.update(pedido.id, pedido);
             await this.notificarPedidoCanceladoUseCase.execute(pedido);

@@ -2,7 +2,8 @@ import { Cliente } from 'src/identificacao/core/domain/cliente/entity/cliente.en
 import {INotificacaoService} from './../interfaces/notificacao.service';
 
 export class NotificacaoService implements INotificacaoService {
-    notificarPorEmail(cliente: Cliente): void {
+
+    async notificarPorEmail(cliente: Cliente) {
         if (cliente.email) {
             console.log(`Enviando notificação de cancelamento para ${cliente.nome} via e-mail.`);
         } else {

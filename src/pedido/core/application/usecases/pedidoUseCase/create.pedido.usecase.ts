@@ -7,7 +7,7 @@ import { IPedidosRepository } from 'src/pedido/core/domain/repository/pedidos.re
 import { PedidoException } from '../../exceptions/pedido.exception';
 import { NovoPedidoEvent } from '../../events/novo-pedido.event';
 import { Item, Pedido } from 'src/pedido/core/domain/entity/pedido.entity';
-import { PedidoCanceladoEvent } from '../../events/pedido-cancelado.event';
+import { NotificarPedidoCanceladoUseCase } from './notificar.pedido.cancelado.usecase';
 
 @Injectable()
 export class CreatePedidoUseCase {
@@ -15,6 +15,7 @@ export class CreatePedidoUseCase {
     @Inject('IPedidosRepository')
     private pedidosRepository: IPedidosRepository,
     private findByIdsProdutosUseCase: FindByIdsProdutosUseCase,
+    private notificarPedidoCanceladoUseCase: NotificarPedidoCanceladoUseCase,
     private findClienteUseCase: FindClienteUseCase,
     @Inject('EventEmitter')
     private eventEmitter: EventEmitter,

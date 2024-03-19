@@ -67,9 +67,9 @@ export class PedidosController
   //   return this.finalizarPedidoUseCase.execute(Number(id));
   // }
 
-  // @Get(':codigo_pedido')
-  // async consultarPedidoPorCodigo(@Param('codigo_pedido') codigo_pedido: string) {
-  //   return this.findPedidoByCodigoUseCase.execute(codigo_pedido);
-  // }
+  @Get(':codigo_pedido')
+  async consultarPedidoPorCodigo(@Param('codigo_pedido') codigo_pedido: string) {
+    return this.findPedidoByCodigoUseCase.execute(codigo_pedido);
+  }
 
 }

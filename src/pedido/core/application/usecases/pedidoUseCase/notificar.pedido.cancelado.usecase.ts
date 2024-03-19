@@ -9,7 +9,7 @@ export class NotificarPedidoCanceladoUseCase {
   constructor(
     @Inject(INotificacaoService)
     private notificacaoService: INotificacaoService,
-    @Inject(IClientesRepository)
+    @Inject(FindClienteUseCase)
     private findClienteUseCase: FindClienteUseCase
   ) {}
 

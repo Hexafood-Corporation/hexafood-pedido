@@ -6,6 +6,7 @@ import { IQueueService } from '../../queue/queue.service';
 import { StatusPedido } from 'src/pedido/core/domain/enum/status-pedido.enum';
 import EventEmitter from 'events';
 import { NotificarPedidoCanceladoUseCase } from 'src/pedido/core/application/usecases/pedidoUseCase/notificar.pedido.cancelado.usecase';
+import { IPedidosRepository } from 'src/pedido/core/domain/repository/pedidos.repository';
 
 @Injectable()
 export class NovoPedidoListener {
@@ -14,7 +15,9 @@ export class NovoPedidoListener {
     @Inject('IQueueService')
     private queueService: IQueueService,
     @Inject('EventEmitter')
-    private eventEmitter: EventEmitter
+    private eventEmitter: EventEmitter,
+    @Inject('IPedidosRepository')
+    private pedidoRepository: IPedidosRepository,
   ) { }
 
   @OnEvent('novo.pedido')
@@ -45,15 +48,8 @@ export class NovoPedidoListener {
       };
     }
 
-    // return this.queueService.sendMessage(
-    //   process.env.AWS_SQS_NOVO_PEDIDO_QUEUE_NAME,
-    //   JSON.stringify(pedidoMessageDto)
-    // );
-
-    
      await this.queueService.sendMessage(
-      // process.env.AWS_SQS_NOVO_PEDIDO_QUEUE_NAME,
-      'TESTE_FILA',
+      process.env.AWS_SQS_NOVO_PEDIDO_QUEUE_NAME,
       JSON.stringify(pedidoMessageDto),
       async (error) => {
           console.error("Falha ao enviar a mensagem:", error);
@@ -61,10 +57,13 @@ export class NovoPedidoListener {
 
           console.log("SETADO PARA CANCELADO");
 
-          await this.notificarPedidoCanceladoUseCase.execute(pedido);
-          // this.eventEmitter.emit('pedido.cancelado', new PedidoCanceladoEvent(pedido));
+          try {
+            await this.pedidoRepository.update(pedido.id, pedido);
+            await this.notificarPedidoCanceladoUseCase.execute(pedido);
+          } catch (error) {
+            console.error("Falha ao atualizar o pedido:", error);
+          }
 
-          // RETORNAR EXCPETION PARA CONTROLLER 
       }
   );
     

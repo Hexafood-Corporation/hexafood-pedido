@@ -3,13 +3,18 @@ import { NovoPedidoEvent } from '../../../core/application/events/novo-pedido.ev
 import { OnEvent } from '@nestjs/event-emitter';
 import { CreatePagamentoUseCase } from 'src/pagamento/core/application/usecases/pagamento/create.pagamento.usecase';
 import { IQueueService } from '../../queue/queue.service';
+import { StatusPedido } from 'src/pedido/core/domain/enum/status-pedido.enum';
+import EventEmitter from 'events';
+import { NotificarPedidoCanceladoUseCase } from 'src/pedido/core/application/usecases/pedidoUseCase/notificar.pedido.cancelado.usecase';
 
 @Injectable()
 export class NovoPedidoListener {
   constructor(
-    private createPagamentoUseCase: CreatePagamentoUseCase,
+    private notificarPedidoCanceladoUseCase : NotificarPedidoCanceladoUseCase,
     @Inject('IQueueService')
-    private queueService: IQueueService
+    private queueService: IQueueService,
+    @Inject('EventEmitter')
+    private eventEmitter: EventEmitter
   ) { }
 
   @OnEvent('novo.pedido')
@@ -40,10 +45,29 @@ export class NovoPedidoListener {
       };
     }
 
-    return this.queueService.sendMessage(
-      process.env.AWS_SQS_NOVO_PEDIDO_QUEUE_NAME,
-      JSON.stringify(pedidoMessageDto)
-    );
+    // return this.queueService.sendMessage(
+    //   process.env.AWS_SQS_NOVO_PEDIDO_QUEUE_NAME,
+    //   JSON.stringify(pedidoMessageDto)
+    // );
+
+    
+     await this.queueService.sendMessage(
+      // process.env.AWS_SQS_NOVO_PEDIDO_QUEUE_NAME,
+      'TESTE_FILA',
+      JSON.stringify(pedidoMessageDto),
+      async (error) => {
+          console.error("Falha ao enviar a mensagem:", error);
+          pedido.status = StatusPedido.CANCELADO;
+
+          console.log("SETADO PARA CANCELADO");
+
+          await this.notificarPedidoCanceladoUseCase.execute(pedido);
+          // this.eventEmitter.emit('pedido.cancelado', new PedidoCanceladoEvent(pedido));
+
+          // RETORNAR EXCPETION PARA CONTROLLER 
+      }
+  );
+    
 
   }
 }

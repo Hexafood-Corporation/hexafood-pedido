@@ -1,4 +1,4 @@
-import { Inject } from "@nestjs/common";
+import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from "@nestjs/event-emitter";
 import EventEmitter from "events";
 import { PagamentoProcessadoEvent } from "src/pedido/core/application/events/pagamento-processado.event";

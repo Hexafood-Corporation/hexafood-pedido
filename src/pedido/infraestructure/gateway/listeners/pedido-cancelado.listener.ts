@@ -4,11 +4,14 @@ import { Pedido } from "src/pedido/core/domain/entity/pedido.entity";
 
 export class PedidoCanceladoListener {
   constructor(
-    private readonly notificarPedidoCanceladoUseCase: NotificarPedidoCanceladoUseCase
+    private notificarPedidoCanceladoUseCase: NotificarPedidoCanceladoUseCase
   ) {}
 
   @OnEvent('pedido.cancelado')
   async handle(event: Pedido) {
+
+    console.log("notificarPedidoCanceladoUseCase", this.notificarPedidoCanceladoUseCase);
+
     await this.notificarPedidoCanceladoUseCase.execute(event);
   }
 }

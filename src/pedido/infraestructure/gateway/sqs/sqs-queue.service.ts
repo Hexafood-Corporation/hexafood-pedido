@@ -1,9 +1,10 @@
 import { SQSClient, GetQueueUrlCommand, SendMessageCommand } from "@aws-sdk/client-sqs";
+import { NotificarPedidoCanceladoUseCase } from "src/pedido/core/application/usecases/pedidoUseCase/notificar.pedido.cancelado.usecase";
 import { IQueueService } from '../../queue/queue.service';
 
 export class SqsQueueService  implements IQueueService{
     private sqs;
-
+    
     constructor() {
         this.sqs = new SQSClient({
             region: process.env.AWS_DEFAULT_REGION,
@@ -16,25 +17,44 @@ export class SqsQueueService  implements IQueueService{
         });
     }
 
-    async sendMessage(queueName: string, message: string) {
+    async sendMessage(queueName: string, message: string, onError?: (error: Error) => Promise<void>) {
 
-        //Obtem a url da fila
+        // //Obtem a url da fila
+        // const queueUrl = await this.getQueueUrl(queueName);
+        // console.log(message);
+
+        // const params = {
+        //     MessageBody: message,
+        //     QueueUrl: queueUrl.QueueUrl
+        // };
+
+        // //Envia a mensagem para a fila
+        // try {
+        //     const comand = new SendMessageCommand(params);
+        //     const data = await this.sqs.send(comand);
+        //     console.log("Success", data.MessageId);
+        // } catch (error) {
+        //     console.log("Error", error);
+        // }
+
+        try {
         const queueUrl = await this.getQueueUrl(queueName);
         console.log(message);
-
+    
         const params = {
             MessageBody: message,
-            QueueUrl: queueUrl.QueueUrl
-        };
-
-        //Envia a mensagem para a fila
-        try {
-            const comand = new SendMessageCommand(params);
-            const data = await this.sqs.send(comand);
+            QueueUrl: queueUrl.QueueUrl,
+        }        
+            const command = new SendMessageCommand(params);
+            const data = await this.sqs.send(command);
             console.log("Success", data.MessageId);
         } catch (error) {
-            console.log("Error", error);
+            console.log("Error sendmessage ---- >", error);
+            if (onError) {
+                await onError(error);
+            }
         }
+
     }
 
     async getQueueUrl(queueName: string): Promise<any> {

@@ -4,8 +4,8 @@ export class PagamentoProcessadoEvent {
 }
 
 export interface PagamentoProcessadoDto{
-    id_pagamento: number;
-    id_pedido: number;
+    id_pagamento: string;
+    id_pedido: string;
     status: string;
 }
 

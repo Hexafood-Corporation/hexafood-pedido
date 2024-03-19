@@ -18,5 +18,5 @@ export interface IPedidosRepository {
 
   findById(id: number): Promise<Pedido>;
 
-  findByCodigo(codigo_pedido: string): Promise<PedidoDTO>;
+  findByCodigo(codigo_pedido: string): Promise<Pedido>;
 }

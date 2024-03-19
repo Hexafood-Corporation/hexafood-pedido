@@ -21,7 +21,7 @@ export class PagamentoProcessadoListener {
     async handle(event: PagamentoProcessadoEvent) {
         const pagamento = event.pagamento;
 
-        const pedido = await this.pedidosRepository.findById(pagamento.id_pedido);
+        const pedido = await this.pedidosRepository.findByCodigo(pagamento.id_pedido);
 
         if (pagamento.status.toLowerCase() != 'aprovado') {
             pedido.status = StatusPedido.CANCELADO;

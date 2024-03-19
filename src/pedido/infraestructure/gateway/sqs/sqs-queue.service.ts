@@ -18,6 +18,13 @@ export class SqsQueueService  implements IQueueService{
 
     async sendMessage(queueName: string, message: string) {
 
+        console.log("AWS Access Key ID:", process.env.AWS_ACCESS_KEY_ID);
+        console.log("AWS Secret Access Key:", process.env.AWS_SECRET_ACCESS_KEY);
+        console.log("AWS Session Token:", process.env.AWS_SESSION_TOKEN);
+        console.log("AWS SQS Endpoint:", process.env.AWS_SQS_ENDPOINT);
+
+        await this.validateCredentials(queueName);
+        
         //Obtem a url da fila
         const queueUrl = await this.getQueueUrl(queueName);
         console.log(message);
@@ -48,6 +55,19 @@ export class SqsQueueService  implements IQueueService{
             return await this.sqs.send(command);
         } catch (error) {
             console.log("Error", error);
+        }
+    }
+
+    async validateCredentials(queueName: string) {
+        try {
+            const getQueueUrlCommand = new GetQueueUrlCommand({
+                QueueName: queueName, // Substitua com um nome de fila que você sabe que existe
+            });
+            const response = await this.sqs.send(getQueueUrlCommand);
+            console.log("GetQueueUrl response:", response);
+            console.log("Credenciais validadas com sucesso.");
+        } catch (error) {
+            console.error("Falha ao validar credenciais:", error);
         }
     }
 }

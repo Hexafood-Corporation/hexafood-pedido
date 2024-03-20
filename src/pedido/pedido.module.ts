@@ -40,6 +40,10 @@ import { IQueueService } from './infraestructure/queue/queue.service';
 import { SqsConsumerService } from './infraestructure/gateway/sqs/sqs-consumer.service';
 import { PagamentoProcessadoListener } from './infraestructure/gateway/listeners/pagamento-processado.listener';
 import { PedidoRecebidoListener } from './infraestructure/gateway/listeners/pedido-recebido.listener';
+import { INotificacaoService } from './core/domain/interfaces/notificacao.service';
+import { NotificacaoService } from './core/domain/services/notificacao.service';
+import { NotificarPedidoCanceladoUseCase } from './core/application/usecases/pedidoUseCase/notificar.pedido.cancelado.usecase';
+import { PedidoCanceladoListener } from './infraestructure/gateway/listeners/pedido-cancelado.listener';
 
 @Module({
   imports: [
@@ -51,7 +55,8 @@ import { PedidoRecebidoListener } from './infraestructure/gateway/listeners/pedi
     { provide: IProdutosRepository, useClass: ProdutosRepository },
     { provide: ICategoriasRepository, useClass: CategoriasRepository },
     { provide: IPedidosRepository, useClass: PedidosRepository },
-    { provide: IQueueService, useClass: SqsQueueService },
+    { provide: IQueueService, useClass: SqsQueueService},
+    { provide: INotificacaoService, useClass: NotificacaoService},    
     SqsConsumerService,
     {
       provide: APP_FILTER,
@@ -89,9 +94,11 @@ import { PedidoRecebidoListener } from './infraestructure/gateway/listeners/pedi
     UpdateProdutoUseCase,
     NovoPedidoListener,
     UpdatePedidoUseCase,
+    NotificarPedidoCanceladoUseCase,
     PagamentoProcessadoListener,
     PedidoRecebidoListener,
-  ],
-  exports: [FindPedidoByIdUseCase, UpdatePedidoUseCase, IPedidosRepository],
+    PedidoCanceladoListener    
+    ],
+  exports: [FindPedidoByIdUseCase, UpdatePedidoUseCase, IPedidosRepository, INotificacaoService],
 })
 export class PedidoModule {}

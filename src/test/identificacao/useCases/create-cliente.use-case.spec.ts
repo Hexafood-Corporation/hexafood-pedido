@@ -18,6 +18,7 @@ describe('CreateClienteUseCase', () => {
     const inputClienteDto: InputClienteDto = {
       nome: 'Nome do Cliente',
       cpf: '12345678901',
+      email: 'teste@email.com'
     };
 
     // Configurar o mock para retornar `false` ao verificar se o CPF existe

@@ -7,11 +7,14 @@ export class Cliente {
 
   cpf: string;
 
+  email: string;
+
   createdAt?: Date;
 
-  constructor(nome: string, cpf: string) {
+  constructor(nome: string, cpf: string, email: string) {
     this.nome = nome;
     this.cpf = cpf;
+    this.email = email;
     this.validate();
   }
 
@@ -21,6 +24,9 @@ export class Cliente {
     }
     if (this.cpf.length !== 11) {
       throw new ClienteException('CPF do cliente deve ter 11 caracteres');
+    }
+    if (!this.email || this.email.trim() === '') {
+      throw new ClienteException('O email não pode ser vazio');
     }
   }
 }

@@ -1,7 +1,8 @@
-import { Inject } from "@nestjs/common";
+import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from "@nestjs/event-emitter";
 import EventEmitter from "events";
 import { PagamentoProcessadoEvent } from "src/pedido/core/application/events/pagamento-processado.event";
+import { PedidoCanceladoEvent } from "src/pedido/core/application/events/pedido-cancelado.event";
 import { PedidoRecebidoEvent } from "src/pedido/core/application/events/pedido-recebido.event";
 import { UpdatePedidoUseCase } from "src/pedido/core/application/usecases/pedidoUseCase/update.pedido.usecase";
 import { StatusPedido } from "src/pedido/core/domain/enum/status-pedido.enum";
@@ -20,10 +21,11 @@ export class PagamentoProcessadoListener {
     async handle(event: PagamentoProcessadoEvent) {
         const pagamento = event.pagamento;
 
-        const pedido = await this.pedidosRepository.findById(pagamento.id_pedido);
+        const pedido = await this.pedidosRepository.findByCodigo(pagamento.id_pedido);
 
         if (pagamento.status.toLowerCase() != 'aprovado') {
             pedido.status = StatusPedido.CANCELADO;
+            this.eventEmitter.emit('pedido.cancelado', new PedidoCanceladoEvent(pedido));
         }
         else {
             pedido.status = StatusPedido.RECEBIDO;

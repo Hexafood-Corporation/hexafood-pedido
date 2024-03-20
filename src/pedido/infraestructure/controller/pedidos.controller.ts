@@ -21,7 +21,8 @@ import { FindPedidoByCodigoUseCase } from 'src/pedido/core/application/usecases/
 
 @ApiTags('pedidos')
 @Controller('pedidos')
-export class PedidosController {
+export class PedidosController
+ {
   constructor(
     private readonly createPedidoUseCase: CreatePedidoUseCase,
     private readonly findAllPedidosUseCase: FindAllPedidosUseCase,
@@ -48,23 +49,23 @@ export class PedidosController {
     return this.pedidosPendentesUseCase.execute();
   }
 
-  @Patch(':id/iniciar_preparacao')
-  async iniciarPreparacaoPedido(@Param('id') id: number) {
+  // @Patch(':id/iniciar_preparacao')
+  // async iniciarPreparacaoPedido(@Param('id') id: number) {
 
-    return this.iniciarPreparacaoPedidoUseCase.execute(Number(id));
-  }
+  //   return this.iniciarPreparacaoPedidoUseCase.execute(Number(id));
+  // }
 
-  @Patch(':id/finalizar_preparacao')
-  async finalizarPreparacaoPedido(@Param('id') id: number) {
+  // @Patch(':id/finalizar_preparacao')
+  // async finalizarPreparacaoPedido(@Param('id') id: number) {
 
-    return this.finalizarPreparacaoPedidoUseCase.execute(Number(id));
-  }
+  //   return this.finalizarPreparacaoPedidoUseCase.execute(Number(id));
+  // }
 
-  @Patch(':id/finalizar_pedido')
-  async finalizarPedido(@Param('id') id: number) {
+  // @Patch(':id/finalizar_pedido')
+  // async finalizarPedido(@Param('id') id: number) {
 
-    return this.finalizarPedidoUseCase.execute(Number(id));
-  }
+  //   return this.finalizarPedidoUseCase.execute(Number(id));
+  // }
 
   @Get(':codigo_pedido')
   async consultarPedidoPorCodigo(@Param('codigo_pedido') codigo_pedido: string) {

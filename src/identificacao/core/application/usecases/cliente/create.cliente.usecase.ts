@@ -16,13 +16,14 @@ export class CreateClienteUseCase {
       throw new ClienteException('Cliente já cadastrado');
     }
     const cliente = await this.clientesRepository.create(
-      new Cliente(data.nome, data.cpf),
+      new Cliente(data.nome, data.cpf, data.email),
     );
     console.log('cliente', cliente);
     return {
       id: cliente.id,
       nome: cliente.nome,
       cpf: cliente.cpf,
+      email: cliente.email
     };
   }
 }

@@ -15,7 +15,7 @@ export class ClientesRepository implements IClientesRepository {
       },
     });
   }
-
+  
   async create(data: Cliente): Promise<Cliente> {
     const newClienteData = await this.prisma.cliente.create({ data });
     return ClienteFactory.create(newClienteData);

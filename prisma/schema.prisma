@@ -15,6 +15,7 @@ model Cliente {
   id        Int         @id @default(autoincrement())
   nome      String
   cpf       String      @unique
+  email     String
   createdAt DateTime    @default(now())
   Pagamento Pagamento[]
   Pedido    Pedido[]
